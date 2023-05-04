@@ -1,0 +1,29 @@
+nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+    div.container-fluid
+        a.navbar-brand(href='/') All Tours
+        button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
+            span.navbar-toggler-icon
+        div.collapse.navbar-collapse#navbarSupportedContent
+            ul.navbar-nav.me-auto.mb-2.mb-lg-0
+                //- li.nav-item
+                //-     a.nav-link.active(aria-current="page" href="#") My Booking
+                //- li.nav-item.dropdown
+                //-     a.nav-link.dropdown-toggle#navbarDropdown(href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false") Dropdown
+                //-     ul.dropdown-menu(aria-labelledby="navbarDropdown")
+                //-         li
+                //-             a.dropdown-item(href="#") Action
+                //-         li
+                //-             a.dropdown-item(href="#") Another action
+                //-         li
+                //-             hr.dropdown-divider
+                //-         li
+                //-             a.dropdown-item(href="#") Something else here
+            form.d-flex
+                if user
+                    a.nav__el--logout.btn.btn-outline-danger.mr-3#nav__logout Log out
+                    a.nav-link(href="/my-profile")
+                        img.cover.rounded-circle.mx-2(src=`/${user.photo}` width='40px' height='40px' style="object-fit: cover;" alt=`Photo of ${user.name}`)
+                        span.text-white= user.name.split(' ')[0]
+                else
+                    a.btn.btn-outline-success.mx-2(href='/login') Log In
+                    a.btn.btn-outline-primary(href='#') Sign Up

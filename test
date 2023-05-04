@@ -1,0 +1,71 @@
+{
+    "name": "Test Tour",
+    "duration": 50,
+    "maxGroupSize": 20,
+    "difficulty": "Medium",
+    "ratingsAverage": 4,
+    "ratingsQuantity": 20,
+    "price": 3000,
+    "priceDiscount": 50,
+    "summary": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium sit quas perferendis adipisci, ad nihil consequatur! Dolores nobis quasi maiores doloremque, accusantium aspernatur illum unde ratione, quis sequi corporis nesciunt!",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium sit quas perferendis adipisci, ad nihil consequatur! Dolores nobis quasi maiores doloremque, accusantium aspernatur illum unde ratione, quis sequi corporis nesciunt!",
+    "imageCover": "image-cover.png",
+    "images": "image.png",
+    "startDates": [
+        "2022-01-01T00:00:00.000Z",
+        "2022-04-01T00:00:00.000Z",
+        "2022-07-01T00:00:00.000Z"
+    ],
+    // "secretTour": true,
+    "secretTour": false,
+    "startLocation": {
+        "description": "Miami, USA",
+        "type": "Point",
+        "coordinates": [-80.185942, 25.774772],
+        "address": "301 Biscayne Blvd, Miami, FL 33132, USA"
+    },
+    "locations": [
+        {
+            "description": "Lummus Park Beach",
+            "type": "Point",
+            "coordinates": [-80.128473, 25.781842],
+            "day": 1
+        },
+        {
+            "description": "Islamorada",
+            "type": "Point",
+            "coordinates": [-80.647885, 24.909047],
+            "day": 2
+        },
+        {
+            "description": "Sombrero Beach",
+            "type": "Point",
+            "coordinates": [-81.0784, 24.707496],
+            "day": 3
+        },
+        {
+            "description": "West Kay",
+            "type": "Point",
+            "coordinates": [-81.768719, 24.552242],
+            "day": 5
+        }
+    ],
+    "guides": [
+        "63f341a8e78c0fc3cbbc7f8e",
+        "63f342044ba55a308ee22aa0",
+        "64097a5f5a1d45de1952d57a",
+        "641afedb958bc4338709ef46"
+    ]
+}
+
+// NoSql query injection
+{
+    "email": { "$gt": "" },
+    "password": "Pa$$word!"
+    // "password": "Pa$$w0rd!"
+}
+
+npm i express-mongo-sanitize
+npm i xss-clean
+
+npm uninstall xss

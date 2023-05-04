@@ -1,0 +1,64 @@
+extends base
+
+block content 
+    //- h1 This is the tour overview
+    main.main
+        .container.card-container.mt-5.pb-5
+            .row.row-cols-1.row-cols-md-3.g-4
+                each tour in tours 
+                    .col
+                        .card.h-100
+                            img.card-img-top(src=`${tour.imageCover}`, alt=`${tour.name}`)
+                            .card-body
+                                h5.card-title= tour.name
+                                h6.card-title= `${tour.difficulty} ${tour.duration}-day tour`
+                                p.card-text= tour.summary
+                                .row
+                                    .card-data.my-1.col-md-6.col-12
+                                        svg.card__icon
+                                            use(xlink:href='/img/icons.svg#icon-map-pin')
+                                        p
+                                            span= tour.startLocation.description
+                                    .card-data.my-1.col-md-6.col-12
+                                        svg.card__icon
+                                            use(xlink:href='/img/icons.svg#icon-calendar')
+                                        p
+                                            span= tour.startDates[0].toLocaleString('en-us', {month: 'long', year: 'numeric'})
+                                    .card-data.my-1.col-md-6.col-12
+                                        svg.card__icon
+                                            use(xlink:href='/img/icons.svg#icon-flag')
+                                        p
+                                            span.fw-bold= tour.locations.length
+                                            | 
+                                            span stops
+                                    .card-data.my-1.col-md-6.col-12
+                                        svg.card__icon
+                                            use(xlink:href='/img/icons.svg#icon-user')
+                                        p
+                                            span.fw-bold= tour.maxGroupSize
+                                            | 
+                                            span people
+                                    if (tour._id && bookings)
+                                        each booking in bookings
+                                            if (booking.tourId.equals(tour._id))
+                                                .card-data.my-1.col-md-6.col-12
+                                                    p
+                                                        span Tickets :
+                                                        | 
+                                                        span.fw-bold= booking.count
+                            .card-footer.text-muted.d-flex
+                                p.px-2
+                                    span.fw-bold= `$${tour.price}`
+                                    | 
+                                    span per person
+                                p.px-2
+                                    span.fw-bold= tour.ratingsAverage
+                                    | 
+                                    span= `rating (${tour.ratingsQuantity})`
+                                p.px-2
+                                    a.btn.btn-primary(href=`/tour/${tour.slug}`) Details
+
+
+        //- section.overview.flex-shrink-0
+        //-     div.container
+        //-         h1=tour

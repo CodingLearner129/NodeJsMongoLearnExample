@@ -1,0 +1,10 @@
+extends base
+
+block content
+    main.main(style="min-height: 84.2vh;")
+        .container.card-container.mt-5.pb-5
+            .error
+                .error_title
+                    h2.heading-secondary.heading-secondary--error= title
+                    h2.error__emoji 😢🤯
+                .error__msg= msg 
