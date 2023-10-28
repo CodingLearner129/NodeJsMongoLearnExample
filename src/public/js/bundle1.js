@@ -758,6 +758,8 @@ const toJSONObject = obj => {
   };
   return visit(obj, 0);
 };
+const isAsyncFn = kindOfTest('AsyncFunction');
+const isThenable = thing => thing && (isObject(thing) || isFunction(thing)) && isFunction(thing.then) && isFunction(thing.catch);
 var _default = {
   isArray,
   isArrayBuffer,
@@ -808,7 +810,9 @@ var _default = {
   ALPHABET,
   generateString,
   isSpecCompliantForm,
-  toJSONObject
+  toJSONObject,
+  isAsyncFn,
+  isThenable
 };
 exports.default = _default;
 },{"./helpers/bind.js":"../../../node_modules/axios/lib/helpers/bind.js"}],"../../../node_modules/axios/lib/core/AxiosError.js":[function(require,module,exports) {
@@ -4354,8 +4358,12 @@ var _default = isXHRAdapterSupported && function (config) {
         config.signal.removeEventListener('abort', onCanceled);
       }
     }
-    if (_utils.default.isFormData(requestData) && (_index.default.isStandardBrowserEnv || _index.default.isStandardBrowserWebWorkerEnv)) {
-      requestHeaders.setContentType(false); // Let the browser set it
+    if (_utils.default.isFormData(requestData)) {
+      if (_index.default.isStandardBrowserEnv || _index.default.isStandardBrowserWebWorkerEnv) {
+        requestHeaders.setContentType(false); // Let the browser set it
+      } else {
+        requestHeaders.setContentType('multipart/form-data;', false); // mobile/desktop app frameworks
+      }
     }
 
     let request = new XMLHttpRequest();
@@ -4747,7 +4755,7 @@ function mergeConfig(config1, config2) {
     validateStatus: mergeDirectKeys,
     headers: (a, b) => mergeDeepProperties(headersToObject(a), headersToObject(b), true)
   };
-  _utils.default.forEach(Object.keys(config1).concat(Object.keys(config2)), function computeConfigValue(prop) {
+  _utils.default.forEach(Object.keys(Object.assign({}, config1, config2)), function computeConfigValue(prop) {
     const merge = mergeMap[prop] || mergeDeepProperties;
     const configValue = merge(config1[prop], config2[prop], prop);
     _utils.default.isUndefined(configValue) && merge !== mergeDirectKeys || (config[prop] = configValue);
@@ -4761,7 +4769,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.VERSION = void 0;
-const VERSION = "1.3.6";
+const VERSION = "1.4.0";
 exports.VERSION = VERSION;
 },{}],"../../../node_modules/axios/lib/helpers/validator.js":[function(require,module,exports) {
 'use strict';
@@ -5427,10 +5435,11 @@ var hideAlert = function hideAlert() {
 };
 exports.hideAlert = hideAlert;
 var showAlert = function showAlert(type, msg) {
+  var time = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 7;
   hideAlert();
   var markup = "<div class=\"alert alert-".concat(type == 'error' ? 'danger' : type, " position-fixed\">").concat(msg, "</div>");
   document.querySelector('body').insertAdjacentHTML('afterbegin', markup);
-  window.setTimeout(hideAlert, 5000);
+  window.setTimeout(hideAlert, time * 1000);
 };
 exports.showAlert = showAlert;
 },{}],"stripe.js":[function(require,module,exports) {
@@ -5456,30 +5465,27 @@ var bookTour = /*#__PURE__*/function () {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          console.log(tourId);
-
-          // 1) Get checkout session from API
-          _context.next = 4;
-          return (0, _axios.default)("".concat("http://localhost:3000/", "api/v1/bookings/checkout-session/").concat(tourId));
-        case 4:
+          _context.next = 3;
+          return (0, _axios.default)("/api/v1/bookings/checkout-session/".concat(tourId));
+        case 3:
           getSession = _context.sent;
           // window.open(getSession.data.session.url,"_blank");
 
           // 2) Create checkout form + charge card
           location.assign(getSession.data.session.url);
           // await stripe.redirectToCheckout({sessionId: getSession.data.session.id})
-          _context.next = 12;
+          _context.next = 11;
           break;
-        case 8:
-          _context.prev = 8;
+        case 7:
+          _context.prev = 7;
           _context.t0 = _context["catch"](0);
           console.log(_context.t0);
           (0, _alert.showAlert)('error', _context.t0);
-        case 12:
+        case 11:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 7]]);
   }));
   return function bookTour(_x) {
     return _ref.apply(this, arguments);
@@ -5500,6 +5506,8 @@ if (bookTourBtn) {
     (0, _stripe.bookTour)(tourId);
   });
 }
+var alertMessage = document.querySelector('body').dataset.alert;
+if (alertMessage) showAlert('success', alertMessage, 20);
 },{"./stripe.js":"stripe.js"}],"../../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -5525,7 +5533,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51087" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51038" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

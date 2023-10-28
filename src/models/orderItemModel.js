@@ -50,6 +50,6 @@ const orderItemSchema = new mongoose.Schema({
 });
 
 // create model
-const orderItem = mongoose.model("orderItem", orderItemSchema);
+const orderItem = mongoose.model("orderItem", orderItemSchema); //where "orderItem" is model name which is used for relationship
 
 export { orderItem };

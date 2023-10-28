@@ -46,6 +46,6 @@ const productSchema = new mongoose.Schema({
 });
 
 // create model
-const product = mongoose.model("product", productSchema);
+const product = mongoose.model("product", productSchema); //where "product" is model name which is used for relationship
 
 export { product };

@@ -30,3 +30,14 @@ process.on("unhandledRejection", (err) => {
     process.exit(1); // code 0 stands for a success and code 1 stands for unhandled exception
   });
 });
+
+process.on('SIGTERM', () => {
+  console.log('👋 SIGTERM RECEIVED, Shutting down gracefully');
+  // because some server providing platforms restarts our app in every 24hours for keep our app in healthy state
+  // for that they sends SIGTERM signal and shutdown server immediately
+  // so this can then leave requests that are currently in processed basically hanging in the air
+  // To prevent that situation when we get that signal we close the server so we don't have to face in problem while server restart    
+  server.close(() => {
+    console.log('💥 Process terminated');
+  });
+})

@@ -11,7 +11,7 @@ export const getCheckoutSession = cathAsync(async (req, res, next) => {
     // 1) Get current booked tour
 
     const tour = await tourModel.findById(req.params.tourId);
-    console.log(`${req.protocol}://${req.get('host')}/${tour.images[0]}`);
+    // console.log(`${req.protocol}://${req.get('host')}/${tour.images[0]}`);
     // 2) Create checkout session
     const createCheckoutSession = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
@@ -64,7 +64,7 @@ export const createBookingCheckoutWithoutWebhook = cathAsync(async (req, res, ne
 
     await bookingModel.create({ tour, user, price });
 
-    res.redirect(req.originalUrl.split('?')[0]);
+    res.redirect(`${req.originalUrl.split('?')[0]}?alert=booking`);
 });
 
 export const webhookCheckout = cathAsync(async (req, res, next) => {
@@ -101,7 +101,7 @@ export const webhookCheckout = cathAsync(async (req, res, next) => {
             break;
         // ... handle other event types
         default:
-            console.log(`Unhandled event type ${event.type}`);
+            // console.log(`Unhandled event type ${event.type}`);
     }
 
     res.status(200).json({ received: true });

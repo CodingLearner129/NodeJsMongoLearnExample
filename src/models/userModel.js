@@ -37,8 +37,8 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "Please enter the password"],
-    minlength: [8, "The email must have at least 8 characters"],
-    maxlength: [50, "The email must have less or equal then 50 characters"],
+    minlength: [8, "The password must have at least 8 characters"],
+    maxlength: [50, "The password must have less or equal then 50 characters"],
     select: false // to hide the createdAt from the response like passwords
   },
   confirmPassword: {
@@ -126,6 +126,6 @@ userSchema.methods.createPasswordResetToken = function (time) {
 }
 
 // create model
-const user = mongoose.model("user", userSchema);
+const user = mongoose.model("user", userSchema); //where "user" is model name which is used for relationship
 
 export { user };

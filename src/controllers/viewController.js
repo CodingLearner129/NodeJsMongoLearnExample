@@ -5,6 +5,10 @@ import * as viewService from "./../services/viewService.js";
 //     viewService.signup(req, res, next);
 // };
 
+export const alerts = async (req, res, next) => {
+    viewService.alerts(req, res, next);
+};
+
 export const getOverview = async (req, res, next) => {
     viewService.getOverview(req, res, next);
 };

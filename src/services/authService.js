@@ -21,7 +21,7 @@ const signToken = async (id) => {
   });
 };
 
-const createSendToken = async (model, statusCode, res) => {
+const createSendToken = async (model, statusCode, req, res) => {
   const token = await signToken(model._id);
 
   const cookieOptions = {
@@ -29,9 +29,8 @@ const createSendToken = async (model, statusCode, res) => {
       Date.now() + process.env.JWT_COOKIE_EXPIRATION * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
+    secure: req.secure || req.protocol === 'https' || req.headers['x-forwarded-proto'] === 'https'
   };
-
-  if (process.env.NODE_ENV.trim() === "production") cookieOptions.secure = true;
 
   res.cookie("jwt", token, cookieOptions);
 
@@ -84,7 +83,7 @@ export const signup = cathAsync(async (req, res, next) => {
   // };
   // res.status(201).send(response);
 
-  await createSendToken(model, 201, res);
+  await createSendToken(model, 201, req, res);
 });
 
 export const login = cathAsync(async (req, res, next) => {
@@ -123,7 +122,7 @@ export const login = cathAsync(async (req, res, next) => {
   //   },
   // };
   // res.status(200).send(response);
-  await createSendToken(model, 200, res);
+  await createSendToken(model, 200, req, res);
 });
 
 export const logout = cathAsync(async (req, res, next) => {
@@ -251,7 +250,7 @@ export const forgotPassword = cathAsync(async (req, res, next) => {
     };
     res.status(200).send(response);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     model.passwordResetToken = "undefined";
     model.passwordResetExpires = "undefined";
     await model.save({ validateBeforeSave: false });
@@ -328,5 +327,5 @@ export const updatePassword = cathAsync(async (req, res, next) => {
   //   },
   // };
   // res.status(200).send(response);
-  await createSendToken(model, 200, res);
+  await createSendToken(model, 200, req, res);
 });

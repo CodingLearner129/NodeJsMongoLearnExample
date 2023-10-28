@@ -21,6 +21,8 @@ import path from 'path';
 import mongooseSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
 import hpp from 'hpp';
+import compression from "compression";
+import cors from 'cors';
 import { log } from "console";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -34,6 +36,20 @@ app.set('views', path.join(__dirname, './src/views'));
 // app.set('views', './src/views');
 
 // Global middlewares
+// Implement CORS( Cross-origin resource sharing )
+app.use(cors());
+// Access-Control-Allow-Origin *
+
+// to restrict CORS to some specific domain
+// app.use(cors({
+//     origin: `${process.env.BASE_URL}`
+// }));
+
+// all route are allow to requests get, post and also complex request like put and delete
+app.options('*', cors());
+// enable CORS on particular route
+// app.options('/api/v1/tours/:id', cors());
+
 // Set security HTTP headers
 app.use(helmet());
 
@@ -45,6 +61,8 @@ app.use(morgan('dev'));
 app.use(express.json({ limit: '10kb' })); // limit to 10kb for requests body so more then 10k data in request body is not allowed
 
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+
+// app.enable('trust proxy');
 
 app.use(cookieParser())
 
@@ -66,6 +84,9 @@ app.use(hpp({
     ]
 }));
 // whitelisted parameters those can be repeated
+
+// to send compressed response to client
+app.use(compression());
 
 // serving static files
 // app.use(express.static(`${__dirname}/public`));

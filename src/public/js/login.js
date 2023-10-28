@@ -5,7 +5,8 @@ export const login = async (email, password) => {
     try {
         const res = await axios({
             method: 'POST',
-            url: `${process.env.BASE_URL}api/v1/auth/login`,
+            // url: `${process.env.BASE_URL}api/v1/auth/login`,
+            url: `/api/v1/auth/login`,
             data:{
                 email,
                 password
@@ -20,7 +21,7 @@ export const login = async (email, password) => {
         }
     } catch (error) {
         if (error.response) {
-            if (error.response.length > 0) {
+            if (Object.keys(error.response).length > 0) {
                 showAlert('error', error.response.data.message);
             } else {
                 showAlert('error', error.response);
@@ -35,7 +36,8 @@ export const logout = async () => {
     try {
         const res = await axios({
             method: 'GET',
-            url: `${process.env.BASE_URL}api/v1/auth/logout`
+            // url: `${process.env.BASE_URL}api/v1/auth/logout`
+            url: `/api/v1/auth/logout`
         });
 
         if (res.data.status === 'success') location.reload(true);

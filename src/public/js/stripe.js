@@ -6,10 +6,11 @@ const stripe = Stripe(`${process.env.STRIPE_PUBLIC_KEY}`);
 export const bookTour = async tourId => {
     try {
 
-        console.log(tourId);
+        // console.log(tourId);
 
         // 1) Get checkout session from API
-        const getSession = await axios(`${process.env.BASE_URL}api/v1/bookings/checkout-session/${tourId}`);
+        // const getSession = await axios(`${process.env.BASE_URL}api/v1/bookings/checkout-session/${tourId}`);
+        const getSession = await axios(`/api/v1/bookings/checkout-session/${tourId}`);
         // window.open(getSession.data.session.url,"_blank");
 
         // 2) Create checkout form + charge card

@@ -109,13 +109,13 @@ const tourSchema = new mongoose.Schema({
   guides: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: "user" 
+      ref: "user" //name of the model
     }
   ],
   // reviews: [
   //   {
   //     type: mongoose.Schema.ObjectId,
-  //     ref: "review"
+  //     ref: "review" //name of the model
   //   }
   // ]
 }, {
@@ -213,6 +213,6 @@ tourSchema.pre(/^find/, function (next) {
 // });
 
 // create model
-const tour = mongoose.model("tour", tourSchema);
+const tour = mongoose.model("tour", tourSchema); //where "tour" is model name which is used for relationship
 
 export { tour };

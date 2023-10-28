@@ -5,6 +5,14 @@ import { user as userModel } from "./../models/userModel.js";
 import { booking as bookingModel } from "./../models/bookingModel.js";
 import mongoose from "mongoose";
 
+export const alerts = cathAsync(async (req, res, next) => {
+  const { alert } = req.query;
+  if (alert === 'booking') {
+    res.locals.alert = "Your booking was successful! Please check your email for confirmation. If your booking doesn\'t showup immediately, please come back later.";
+  }
+  next();
+});
+
 export const getOverview = cathAsync(async (req, res, next) => {
   // 1) get tour data from collection
   const model = await tourModel.aggregate([
@@ -52,7 +60,7 @@ export const getTour = cathAsync(async (req, res, next) => {
   if (!model) {
     return next(new AppError('There is no tour with that name.', 404));
   }
-  console.log(`${process.env.STRIPE_PUBLIC_KEY}`);
+  // console.log(`${process.env.STRIPE_PUBLIC_KEY}`);
   // 2) build template
   // 3) Render that template using tour data from 1)
   res.setHeader('Content-Security-Policy', "script-src 'self' https://api.mapbox.com - https://api.mapbox.com");
@@ -77,7 +85,7 @@ export const getLoginForm = cathAsync(async (req, res, next) => {
 
   // 2) build template
   // 3) Render that template using tour data from 1)
-  // res.setHeader( 'Content-Security-Policy', "script-src 'self' https://cdnjs.cloudflare.com" ); 
+  res.setHeader( 'Content-Security-Policy', "script-src 'self' https://cdnjs.cloudflare.com" ); 
   res.setHeader('Content-Security-Policy', "script-src 'self' https://cdn.jsdelivr.net");
   res.status(200).render('login', {
     title: 'Login into your account',
@@ -133,7 +141,7 @@ export const getMyTours = cathAsync(async (req, res, next) => {
       }
     }
   ]);
-  console.log(bookings);
+  // console.log(bookings);
   // 2) find tours with the returned IDs
   const tourIDs = bookings.map(el => el.tourId);
   // console.log(tourIDs);

@@ -4,7 +4,8 @@ import { showAlert } from './alert.js';
 // type is either 'password' or 'profile'
 export const updateSettings = async (data, type) => {
     try {
-        const url = type === 'password' ? `${process.env.BASE_URL}api/v1/auth/update-password` : `${process.env.BASE_URL}api/v1/users/update-profile`;
+        // const url = type === 'password' ? `${process.env.BASE_URL}api/v1/auth/update-password` : `${process.env.BASE_URL}api/v1/users/update-profile`;
+        const url = type === 'password' ? `/api/v1/auth/update-password` : `/api/v1/users/update-profile`;
         const res = await axios({
             method: 'PATCH',
             url,

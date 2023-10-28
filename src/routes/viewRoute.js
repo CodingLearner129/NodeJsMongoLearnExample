@@ -13,6 +13,8 @@ const router = express.Router();
 //     });
 // });
 
+router.use(ViewController.alerts);
+
 router.get('/', [BookingController.createBookingCheckoutWithoutWebhook ,AuthController.isLoggedIn], ViewController.getOverview);
 router.get('/tour/:slug', [AuthController.isLoggedIn], ViewController.getTour);
 router.get('/login', [AuthController.isLoggedIn], ViewController.getLoginForm);

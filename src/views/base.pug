@@ -14,7 +14,7 @@ html
             title Natours | #{title}
 
 
-    body.d-flex.flex-column.h-100
+    body.d-flex.flex-column.h-100(data-alert=`${alert ? alert : ''}`)
         //- Navbar
         include _navbar
 

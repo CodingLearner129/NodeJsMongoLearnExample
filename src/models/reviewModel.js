@@ -15,12 +15,12 @@ const reviewSchema = mongoose.Schema({
     },
     tour: {
         type: mongoose.Schema.ObjectId,
-        ref: "tour",
+        ref: "tour", //name of the model
         require: [true, "Review must be belong to a tour"]
     },
     user: {
         type: mongoose.Schema.ObjectId,
-        ref: "user",
+        ref: "user", //name of the model
         require: [true, "Review must be belong to a user"]
     },
     createdAt: {
@@ -117,6 +117,6 @@ reviewSchema.post(/^findOneAnd/, async function(){
     await this.reviewDocument.constructor.calcAverageRatings(this.reviewDocument.tour);
 });
 
-const review = mongoose.model("review", reviewSchema);
+const review = mongoose.model("review", reviewSchema); //where "review" is model name which is used for relationship
 
 export { review };
